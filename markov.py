@@ -71,7 +71,7 @@ def tweet(chains):
         access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
 
 
-    print api.VerifyCredentials()
+    # print api.VerifyCredentials()
 
     # Calls on 'make_text' function and prints 140 character tweet based on input 'chains'
     # text_for_tweet = make_text(chains)
@@ -87,9 +87,6 @@ def tweet(chains):
     print status.text
 
 
-
-
-
 # Get the filenames from the user through a command line prompt, ex:
 # python markov.py green-eggs.txt shakespeare.txt
 filenames = sys.argv[1:]
@@ -102,3 +99,12 @@ chains = make_chains(text)
 
 # Your task is to write a new function tweet, that will take chains as input
 tweet(chains)
+print
+
+while True:
+    answer = raw_input("Enter to tweet again [q to quit] > ")
+    if answer == "q":
+        break
+    else: 
+        tweet(chains)
+        print
