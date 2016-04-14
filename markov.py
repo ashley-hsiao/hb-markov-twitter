@@ -56,14 +56,39 @@ def make_text(chains):
         words.append(word)
         key = (key[1], word)
 
-    return " ".join(words)
+    return " ".join(words)[:140]  # Limits string to 140 characters. 
 
 
 def tweet(chains):
     # Use Python os.environ to get at environmental variables
     # Note: you must run `source secrets.sh` before running this file
     # to make sure these environmental variables are set.
-    pass
+    
+    api = twitter.Api(
+        consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
+        consumer_secret=os.environ['TWITTER_CONSUMER_SECRET'],
+        access_token_key=os.environ['TWITTER_ACCESS_TOKEN_KEY'],
+        access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
+
+
+    print api.VerifyCredentials()
+
+    # Calls on 'make_text' function and prints 140 character tweet based on input 'chains'
+    # text_for_tweet = make_text(chains)
+    # tweet_140_char = text_for_tweet[0:140]
+    # text_for_tweet = make_text(chains)[:140]
+    # print text_for_tweet
+
+    # Above code implemented in make_text function per lab instructions
+
+    tweet_text = make_text(chains)  # Calling make_text function and returning a string and binding it to tweet_text.
+
+    status = api.PostUpdate(tweet_text)
+    print status.text
+
+
+
+
 
 # Get the filenames from the user through a command line prompt, ex:
 # python markov.py green-eggs.txt shakespeare.txt
@@ -76,4 +101,4 @@ text = open_and_read_file(filenames)
 chains = make_chains(text)
 
 # Your task is to write a new function tweet, that will take chains as input
-# tweet(chains)
+tweet(chains)
